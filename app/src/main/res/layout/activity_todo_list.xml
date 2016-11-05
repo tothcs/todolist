@@ -17,7 +17,15 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <Button
+                android:id="@+id/toolbar_create_new_todo_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/create_new_todo"
+                android:layout_gravity="right" />
+        </android.support.v7.widget.Toolbar>
 
 
         <android.support.design.widget.TabLayout

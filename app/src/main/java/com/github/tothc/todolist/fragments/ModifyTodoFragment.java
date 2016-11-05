@@ -10,8 +10,18 @@ import com.github.tothc.todolist.R;
 
 public class ModifyTodoFragment extends Fragment {
 
+    private static final String TODO_ID = "ID";
+
     public ModifyTodoFragment() {
         // Required empty public constructor
+    }
+
+    public static ModifyTodoFragment newInstance(int id) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(TODO_ID, id);
+        ModifyTodoFragment fragment = new ModifyTodoFragment();
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     @Override

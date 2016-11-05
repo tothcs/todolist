@@ -1,13 +1,90 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.github.tothc.todolist.fragments.CreateTodoFragment">
+    tools:context="com.github.tothc.todolist.fragments.CreateTodoFragment"
+    android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
+   <TextView
+        android:id="@+id/name_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        android:textSize="10pt">
+    </TextView>
+
+    <EditText
+        android:id="@+id/name_edit_text"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:inputType="text"
+        android:hint="Name hint" />
 
-</FrameLayout>
+
+    <TextView
+        android:id="@+id/description_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Description"
+        android:textSize="10pt">
+    </TextView>
+
+    <EditText
+        android:id="@+id/description_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:hint="Description hint" />
+
+    <!-- Google Places API -->
+
+    <TextView
+        android:id="@+id/starting_time_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Todo Start time"
+        android:textSize="10pt">
+    </TextView>
+
+    <TextView
+        android:id="@+id/starting_time_date_picker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </TextView>
+
+    <TextView
+        android:id="@+id/estimated_time_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Estimated time"
+        android:textSize="10pt">
+    </TextView>
+
+    <EditText
+        android:id="@+id/estimated_time_number_picker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number">
+    </EditText>
+
+    <TextView
+        android:id="@+id/completed_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Completed"
+        android:textSize="10pt">
+    </TextView>
+
+    <CheckBox
+        android:id="@+id/completed_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </CheckBox>
+
+    <Button
+        android:id="@+id/save_created_todo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save"/>
+
+</LinearLayout>

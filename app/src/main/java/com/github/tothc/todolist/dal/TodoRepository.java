@@ -14,15 +14,6 @@ public class TodoRepository {
 
     private TodoRepository(Context context) {
         helper = new DatabaseHelper(context);
-        TodoListItem todoListItem = new TodoListItem();
-        todoListItem.setDescription("B");
-        todoListItem.setCompleted(true);
-        todoListItem.setName("AAA" + System.currentTimeMillis());
-        try {
-            helper.getTodoListItemDao().create(todoListItem);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     public static void initRepository(Context context) {
@@ -62,5 +53,10 @@ public class TodoRepository {
     }
 
     public void persistTodo(TodoListItem item) {
+        try {
+            helper.getTodoListItemDao().create(item);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

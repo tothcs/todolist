@@ -5,6 +5,10 @@ public class TodoItemNavigationEvent {
     private int id;
     private NavigationEventType navigationEventType;
 
+    public TodoItemNavigationEvent(NavigationEventType navigationEventType) {
+        this.navigationEventType = navigationEventType;
+    }
+
     public TodoItemNavigationEvent(int id, NavigationEventType navigationEventType) {
         this.id = id;
         this.navigationEventType = navigationEventType;
@@ -17,4 +21,5 @@ public class TodoItemNavigationEvent {
     public NavigationEventType getNavigationEventType() {
         return navigationEventType;
     }
+
 }

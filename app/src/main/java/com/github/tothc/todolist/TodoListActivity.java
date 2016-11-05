@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.github.tothc.todolist.adapter.TodoListPagerAdapter;
+import com.github.tothc.todolist.events.NavigationEventType;
 import com.github.tothc.todolist.events.TodoItemNavigationEvent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -17,6 +18,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class TodoListActivity extends AppCompatActivity {
 
@@ -67,6 +69,11 @@ public class TodoListActivity extends AppCompatActivity {
         }
     }
 
+    @OnClick(R.id.toolbar_create_new_todo_button)
+    void onCreateNewTodoButtonClick() {
+        navigateToDetailActivity(new TodoItemNavigationEvent(NavigationEventType.CREATE));
+    }
+
     private void navigateToDetailActivity(TodoItemNavigationEvent todoItemNavigationEvent) {
         Intent intent = new Intent(this, TodoDetailActivity.class);
         Bundle bundle = new Bundle();
@@ -75,6 +82,8 @@ public class TodoListActivity extends AppCompatActivity {
         intent.putExtra("navigationDetails", bundle);
         startActivity(intent);
     }
+
+
 
     private void setupToolbar() {
         toolbar.setTitle(getTitle());

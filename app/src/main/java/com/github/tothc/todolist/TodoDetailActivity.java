@@ -18,6 +18,7 @@ import android.view.MenuItem;
 
 import com.github.tothc.todolist.events.NavigationEventType;
 import com.github.tothc.todolist.events.TodoItemNavigationEvent;
+import com.github.tothc.todolist.fragments.CreateTodoFragment;
 import com.github.tothc.todolist.fragments.DisplayTodoFragment;
 import com.github.tothc.todolist.fragments.ModifyTodoFragment;
 import com.github.tothc.todolist.model.TodoListItem;
@@ -79,12 +80,12 @@ public class TodoDetailActivity extends AppCompatActivity {
         addFragment(DisplayTodoFragment.newInstance(id));
     }
 
-    private void navigateToModifyTodo(long id) {
-        //addFragment();
+    private void navigateToModifyTodo(int id) {
+        addFragment(ModifyTodoFragment.newInstance(id));
     }
 
     private void navigateToCreateTodo() {
-        //addFragment();
+        addFragment(CreateTodoFragment.newInstance());
     }
 
     private void addFragment(Fragment fragment) {
