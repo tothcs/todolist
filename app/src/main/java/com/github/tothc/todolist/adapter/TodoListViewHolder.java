@@ -8,31 +8,23 @@ import com.github.tothc.todolist.R;
 import com.github.tothc.todolist.model.TodoListItem;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class TodoListViewHolder extends RecyclerView.ViewHolder {
 
-    private TodoListItem todoListItem;
-    private View viewHolder;
-
     @BindView(R.id.listItemTitle)
     TextView titleTextView;
+    @BindView(R.id.listItemStartDate)
+    TextView startDateTextView;
 
-    public TodoListViewHolder(View itemView) {
-        super(itemView);
-        viewHolder = itemView;
-    }
-
-    public TodoListItem getTodoListItem() {
-        return todoListItem;
+    public TodoListViewHolder(View view) {
+        super(view);
+        ButterKnife.bind(this, view);
     }
 
     public void setTodoListItem(TodoListItem todoListItem) {
-        this.todoListItem = todoListItem;
         titleTextView.setText(todoListItem.getTitle());
-    }
-
-    public View getViewHolder() {
-        return viewHolder;
+        startDateTextView.setText("asd");
     }
 
 }

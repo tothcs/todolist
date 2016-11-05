@@ -16,6 +16,6 @@ public class TodoRepository {
             todoList.add(item);
         }
 
-        return getAllTodo();
+        return todoList;
     }
 }

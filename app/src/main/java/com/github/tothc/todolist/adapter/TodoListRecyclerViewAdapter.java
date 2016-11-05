@@ -13,14 +13,16 @@ import java.util.List;
 
 public class TodoListRecyclerViewAdapter extends RecyclerView.Adapter<TodoListViewHolder> {
 
-    private TodoRepository todoRepository;
     private List<TodoListItem> todoList;
+    private boolean isTwoPane;
+
+    public TodoListRecyclerViewAdapter(List<TodoListItem> todoList, boolean isTwoPane) {
+        this.todoList = todoList;
+        this.isTwoPane = isTwoPane;
+    }
 
     @Override
     public TodoListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        todoRepository = new TodoRepository();
-        todoList = todoRepository.getAllTodo();
-
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.todo_list_content, parent, false);
         return new TodoListViewHolder(view);
@@ -29,6 +31,7 @@ public class TodoListRecyclerViewAdapter extends RecyclerView.Adapter<TodoListVi
     @Override
     public void onBindViewHolder(TodoListViewHolder holder, int position) {
         holder.setTodoListItem(todoList.get(position));
+
     }
 
     @Override
