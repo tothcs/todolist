@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">TodoList</string>
     <string name="title_todo_detail">Todo Detail</string>
+    <string name="TAB_ACTIVE">Active</string>
+    <string name="TAB_DONE">Done</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

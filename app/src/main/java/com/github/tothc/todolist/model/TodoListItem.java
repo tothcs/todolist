@@ -9,7 +9,7 @@ import org.joda.time.DateTime;
 public class TodoListItem {
 
     @DatabaseField(generatedId = true)
-    private long id;
+    private int id;
     @DatabaseField
     private String name;
     @DatabaseField
@@ -29,11 +29,11 @@ public class TodoListItem {
 
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

@@ -1,5 +1,7 @@
 package com.github.tothc.todolist;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -7,6 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.github.tothc.todolist.adapter.TodoListPagerAdapter;
+import com.github.tothc.todolist.events.TodoItemNavigationEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,14 +45,45 @@ public class TodoListActivity extends AppCompatActivity {
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onPause() {
+        EventBus.getDefault().unregister(this);
+        super.onPause();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    protected void onTodoItemNavigation(TodoItemNavigationEvent todoItemNavigationEvent) {
+        boolean twoPane = false;
+        if (twoPane) {
+            // TODO: 2016. 11. 05.  Master-detail flow "tablet" view
+        } else {
+            navigateToDetailActivity(todoItemNavigationEvent);
+        }
+    }
+
+    private void navigateToDetailActivity(TodoItemNavigationEvent todoItemNavigationEvent) {
+        Intent intent = new Intent(this, TodoDetailActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("id", todoItemNavigationEvent.getId());
+        bundle.putInt("type", todoItemNavigationEvent.getNavigationEventType().getEventTypeIntValue());
+        intent.putExtra("navigationDetails", bundle);
+        startActivity(intent);
+    }
+
     private void setupToolbar() {
         toolbar.setTitle(getTitle());
         setSupportActionBar(toolbar);
     }
 
     private void setupTabLayout() {
-        tabLayout.addTab(tabLayout.newTab().setText("Active"));
-        tabLayout.addTab(tabLayout.newTab().setText("Done"));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.TAB_ACTIVE));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.TAB_DONE));
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -64,5 +102,7 @@ public class TodoListActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
 }

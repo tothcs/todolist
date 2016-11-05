@@ -52,7 +52,12 @@ public class TodoRepository {
         return null;
     }
 
-    public TodoListItem getTodoById(long id) {
+    public TodoListItem getTodoById(int id) {
+        try {
+            return helper.getTodoListItemDao().queryForId(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
