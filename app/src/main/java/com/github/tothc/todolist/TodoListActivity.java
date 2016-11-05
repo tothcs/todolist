@@ -2,6 +2,7 @@ package com.github.tothc.todolist;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -10,34 +11,43 @@ import android.view.View;
 import com.github.tothc.todolist.adapter.TodoListRecyclerViewAdapter;
 import com.github.tothc.todolist.dal.TodoRepository;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class TodoListActivity extends AppCompatActivity {
 
-    private boolean mTwoPane;
     private TodoRepository todoRepository;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.todo_list)
+    RecyclerView recyclerView;
+    @Nullable
+    @BindView(R.id.todo_detail_container)
+    View detailContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todo_list);
+        ButterKnife.bind(this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setTitle(getTitle());
-
-        todoRepository = new TodoRepository();
-
-        View recyclerView = findViewById(R.id.todo_list);
-        setupRecyclerView((RecyclerView) recyclerView);
-
-        if (findViewById(R.id.todo_detail_container) != null) {
-            mTwoPane = true;
-        }
-
+        setupToolbar();
+        setupRecyclerView();
     }
 
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        //recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(DummyContent.ITEMS));
-        recyclerView.setAdapter(new TodoListRecyclerViewAdapter(todoRepository.getAllTodo(), mTwoPane));
+    private void setupToolbar() {
+        toolbar.setTitle(getTitle());
+        setSupportActionBar(toolbar);
+    }
+
+    private void setupRecyclerView() {
+        todoRepository = new TodoRepository();
+        recyclerView.setAdapter(new TodoListRecyclerViewAdapter(todoRepository.getAllTodo(), isTwoPane()));
+    }
+
+    private boolean isTwoPane() {
+        return detailContainer != null;
     }
 
 }
