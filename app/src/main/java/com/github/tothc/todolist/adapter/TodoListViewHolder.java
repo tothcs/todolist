@@ -23,7 +23,7 @@ public class TodoListViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setTodoListItem(TodoListItem todoListItem) {
-        titleTextView.setText(todoListItem.getTitle());
+        titleTextView.setText(todoListItem.getName());
         startDateTextView.setText("asd");
     }
 

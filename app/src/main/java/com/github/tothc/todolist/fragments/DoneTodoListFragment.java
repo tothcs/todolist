@@ -18,13 +18,14 @@ import butterknife.ButterKnife;
 public class DoneTodoListFragment extends Fragment {
 
     private View view;
-    private TodoRepository todoRepository;
 
     @BindView(R.id.todo_list)
     RecyclerView recyclerView;
     @Nullable
     @BindView(R.id.todo_detail_container)
     View detailContainer;
+
+    TodoListRecyclerViewAdapter todoListRecyclerViewAdapter;
 
     public DoneTodoListFragment() {
         // Required empty public constructor
@@ -41,14 +42,21 @@ public class DoneTodoListFragment extends Fragment {
         this.view = inflater.inflate(R.layout.fragment_todo_list, container, false);
         ButterKnife.bind(this, view);
 
-        todoRepository = new TodoRepository();
+        TodoRepository.initRepository(view.getContext());
         setupRecyclerView();
 
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        todoListRecyclerViewAdapter.refreshTodoList(TodoRepository.getInstance().getAllDoneTodo());
+    }
+
     private void setupRecyclerView() {
-        recyclerView.setAdapter(new TodoListRecyclerViewAdapter(todoRepository.getAllDoneTodo(), isTwoPane()));
+        todoListRecyclerViewAdapter = new TodoListRecyclerViewAdapter(TodoRepository.getInstance().getAllDoneTodo(), isTwoPane());
+        recyclerView.setAdapter(todoListRecyclerViewAdapter);
     }
 
     private boolean isTwoPane() {

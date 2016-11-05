@@ -11,6 +11,9 @@ import android.view.ViewGroup;
 import com.github.tothc.todolist.R;
 import com.github.tothc.todolist.adapter.TodoListRecyclerViewAdapter;
 import com.github.tothc.todolist.dal.TodoRepository;
+import com.github.tothc.todolist.model.TodoListItem;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,13 +21,14 @@ import butterknife.ButterKnife;
 public class ActiveTodoListFragment extends Fragment {
 
     private View view;
-    private TodoRepository todoRepository;
 
     @BindView(R.id.todo_list)
     RecyclerView recyclerView;
     @Nullable
     @BindView(R.id.todo_detail_container)
     View detailContainer;
+
+    private TodoListRecyclerViewAdapter todoListRecyclerViewAdapter;
 
     public ActiveTodoListFragment() {
         // Required empty public constructor
@@ -41,15 +45,22 @@ public class ActiveTodoListFragment extends Fragment {
         this.view = inflater.inflate(R.layout.fragment_todo_list, container, false);
         ButterKnife.bind(this, view);
 
-        todoRepository = new TodoRepository();
+        TodoRepository.initRepository(view.getContext());
+
         setupRecyclerView();
 
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        todoListRecyclerViewAdapter.refreshTodoList(TodoRepository.getInstance().getAllActiveTodo());
+    }
 
     private void setupRecyclerView() {
-        recyclerView.setAdapter(new TodoListRecyclerViewAdapter(todoRepository.getAllActiveTodo(), isTwoPane()));
+        todoListRecyclerViewAdapter = new TodoListRecyclerViewAdapter(TodoRepository.getInstance().getAllActiveTodo(), isTwoPane());
+        recyclerView.setAdapter(todoListRecyclerViewAdapter);
     }
 
     private boolean isTwoPane() {

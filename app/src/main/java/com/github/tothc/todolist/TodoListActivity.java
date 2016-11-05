@@ -1,21 +1,15 @@
 package com.github.tothc.todolist;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import com.github.tothc.todolist.adapter.TodoListPagerAdapter;
-import com.github.tothc.todolist.adapter.TodoListRecyclerViewAdapter;
-import com.github.tothc.todolist.dal.TodoRepository;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnPageChange;
 
 public class TodoListActivity extends AppCompatActivity {
 

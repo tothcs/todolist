@@ -1,33 +1,61 @@
 package com.github.tothc.todolist.dal;
 
+import android.content.Context;
+
 import com.github.tothc.todolist.model.TodoListItem;
 
-import java.util.ArrayList;
+import java.sql.SQLException;
 import java.util.List;
 
 public class TodoRepository {
 
-    public List<TodoListItem> getAllActiveTodo() {
-        List<TodoListItem> todoList = new ArrayList<TodoListItem>();
-        for(int i = 0; i < 20; i++) {
-            TodoListItem item = new TodoListItem();
-            item.setTitle("ü999999" + i);
+    private static TodoRepository instance = null;
+    private DatabaseHelper helper;
 
-            todoList.add(item);
+    private TodoRepository(Context context) {
+        helper = new DatabaseHelper(context);
+        TodoListItem todoListItem = new TodoListItem();
+        todoListItem.setDescription("B");
+        todoListItem.setCompleted(true);
+        todoListItem.setName("AAA" + System.currentTimeMillis());
+        try {
+            helper.getTodoListItemDao().create(todoListItem);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+    }
 
-        return todoList;
+    public static void initRepository(Context context) {
+        instance = new TodoRepository(context);
+    }
+
+    public static TodoRepository getInstance() {
+
+        return instance;
+    }
+
+    public List<TodoListItem> getAllActiveTodo() {
+        try {
+            return helper.getTodoListItemDao().queryForEq("isCompleted", false);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public List<TodoListItem> getAllDoneTodo() {
-        List<TodoListItem> todoList = new ArrayList<TodoListItem>();
-        for(int i = 0; i < 20; i++) {
-            TodoListItem item = new TodoListItem();
-            item.setTitle("ABCD" + i);
-
-            todoList.add(item);
+        try {
+            return helper.getTodoListItemDao().queryForEq("isCompleted", true);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        return null;
+    }
 
-        return todoList;
+    public TodoListItem getTodoById(long id) {
+        return null;
+    }
+
+    public void persistTodo(TodoListItem item) {
     }
 }

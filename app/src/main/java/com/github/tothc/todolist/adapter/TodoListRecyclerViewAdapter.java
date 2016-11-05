@@ -38,4 +38,9 @@ public class TodoListRecyclerViewAdapter extends RecyclerView.Adapter<TodoListVi
     public int getItemCount() {
         return todoList != null ? todoList.size() : 0;
     }
+
+    public void refreshTodoList(List<TodoListItem> todoList) {
+        this.todoList = todoList;
+        notifyDataSetChanged();
+    }
 }
