@@ -2,28 +2,33 @@ package com.github.tothc.todolist;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.github.tothc.todolist.adapter.TodoListPagerAdapter;
 import com.github.tothc.todolist.adapter.TodoListRecyclerViewAdapter;
 import com.github.tothc.todolist.dal.TodoRepository;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnPageChange;
 
 public class TodoListActivity extends AppCompatActivity {
 
-    private TodoRepository todoRepository;
-
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.todo_list)
-    RecyclerView recyclerView;
-    @Nullable
-    @BindView(R.id.todo_detail_container)
-    View detailContainer;
+
+    @BindView(R.id.viewPager)
+    ViewPager viewPager;
+
+    @BindView(R.id.tab_layout)
+    TabLayout tabLayout;
+
+    private static final int NUMBER_OF_PAGES = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +36,12 @@ public class TodoListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_todo_list);
         ButterKnife.bind(this);
 
+        TodoListPagerAdapter todoListPagerAdapter = new TodoListPagerAdapter(getSupportFragmentManager(), NUMBER_OF_PAGES);
         setupToolbar();
-        setupRecyclerView();
+        setupTabLayout();
+
+        viewPager.setAdapter(todoListPagerAdapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
     }
 
     private void setupToolbar() {
@@ -40,13 +49,26 @@ public class TodoListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
     }
 
-    private void setupRecyclerView() {
-        todoRepository = new TodoRepository();
-        recyclerView.setAdapter(new TodoListRecyclerViewAdapter(todoRepository.getAllTodo(), isTwoPane()));
-    }
+    private void setupTabLayout() {
+        tabLayout.addTab(tabLayout.newTab().setText("Active"));
+        tabLayout.addTab(tabLayout.newTab().setText("Done"));
 
-    private boolean isTwoPane() {
-        return detailContainer != null;
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
 }
