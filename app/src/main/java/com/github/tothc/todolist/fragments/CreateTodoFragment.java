@@ -1,5 +1,6 @@
 package com.github.tothc.todolist.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -7,16 +8,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.github.tothc.todolist.R;
 import com.github.tothc.todolist.dal.TodoRepository;
 import com.github.tothc.todolist.model.TodoListItem;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.app.Activity.RESULT_OK;
+
 public class CreateTodoFragment extends Fragment {
+
+    private static final int PLACE_PICKER_FLAG = 1;
 
     @BindView(R.id.name_edit_text)
     EditText nameEditText;
@@ -26,6 +36,8 @@ public class CreateTodoFragment extends Fragment {
     EditText estimatedTimeNumber;
     @BindView(R.id.completed_checkbox)
     CheckBox completedCheckbox;
+    @BindView(R.id.create_todo_position)
+    TextView createTodoPosition;
 
     public CreateTodoFragment() {
         // Required empty public constructor
@@ -58,4 +70,23 @@ public class CreateTodoFragment extends Fragment {
         TodoRepository.getInstance().persistTodo(todoListItem);
     }
 
+    @OnClick(R.id.create_todo_change_position)
+    void onChangePositionButtonClick() {
+        try {
+            startActivityForResult(new PlacePicker.IntentBuilder().build(getActivity()), PLACE_PICKER_FLAG);
+        } catch (GooglePlayServicesRepairableException e) {
+            e.printStackTrace();
+        } catch (GooglePlayServicesNotAvailableException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == PLACE_PICKER_FLAG) {
+            Place place = PlacePicker.getPlace(this.getContext(), data);
+            createTodoPosition.setText(place.getAddress());
+        }
+    }
 }
