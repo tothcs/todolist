@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.github.tothc.todolist.R;
 import com.github.tothc.todolist.dal.TodoRepository;
 import com.github.tothc.todolist.model.TodoListItem;
+import com.github.tothc.todolist.model.TodoPosition;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
@@ -38,6 +39,8 @@ public class CreateTodoFragment extends Fragment {
     CheckBox completedCheckbox;
     @BindView(R.id.create_todo_position)
     TextView createTodoPosition;
+
+    private TodoPosition todoPosition;
 
     public CreateTodoFragment() {
         // Required empty public constructor
@@ -67,6 +70,7 @@ public class CreateTodoFragment extends Fragment {
         todoListItem.setDescription(descriptionEditText.getText().toString());
         todoListItem.setEstimatedDuration(Integer.valueOf(estimatedTimeNumber.getText().toString()));
         todoListItem.setCompleted(completedCheckbox.isChecked());
+        todoListItem.setTodoPosition(todoPosition);
         TodoRepository.getInstance().persistTodo(todoListItem);
     }
 
@@ -87,6 +91,10 @@ public class CreateTodoFragment extends Fragment {
         if (resultCode == RESULT_OK && requestCode == PLACE_PICKER_FLAG) {
             Place place = PlacePicker.getPlace(this.getContext(), data);
             createTodoPosition.setText(place.getAddress());
+            todoPosition = new TodoPosition();
+            todoPosition.setLatitude(place.getLatLng().latitude);
+            todoPosition.setLongitude(place.getLatLng().longitude);
+            todoPosition.setAddress(place.getAddress().toString());
         }
     }
 }

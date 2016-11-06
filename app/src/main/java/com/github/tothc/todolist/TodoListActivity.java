@@ -1,6 +1,5 @@
 package com.github.tothc.todolist;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -9,8 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.github.tothc.todolist.adapter.TodoListPagerAdapter;
-import com.github.tothc.todolist.events.NavigationEventType;
-import com.github.tothc.todolist.events.TodoItemNavigationEvent;
+import com.github.tothc.todolist.dal.TodoRepository;
+import com.github.tothc.todolist.events.TodoItemEventType;
+import com.github.tothc.todolist.events.TodoItemEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -60,25 +60,29 @@ public class TodoListActivity extends AppCompatActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    protected void onTodoItemNavigation(TodoItemNavigationEvent todoItemNavigationEvent) {
-        boolean twoPane = false;
-        if (twoPane) {
-            // TODO: 2016. 11. 05.  Master-detail flow "tablet" view
-        } else {
-            navigateToDetailActivity(todoItemNavigationEvent);
+    protected void onTodoItemEvent(TodoItemEvent todoItemEvent) {
+        if (todoItemEvent.getTodoItemEventType() == TodoItemEventType.DELETE) {
+            TodoRepository.getInstance().deleteTodoById(todoItemEvent.getId());
+        }  else {
+            boolean twoPane = false;
+            if (twoPane) {
+                // TODO: 2016. 11. 05.  Master-detail flow "tablet" view
+            } else {
+                navigateToDetailActivity(todoItemEvent);
+            }
         }
     }
 
     @OnClick(R.id.toolbar_create_new_todo_button)
     void onCreateNewTodoButtonClick() {
-        navigateToDetailActivity(new TodoItemNavigationEvent(NavigationEventType.CREATE));
+        navigateToDetailActivity(new TodoItemEvent(TodoItemEventType.CREATE));
     }
 
-    private void navigateToDetailActivity(TodoItemNavigationEvent todoItemNavigationEvent) {
+    private void navigateToDetailActivity(TodoItemEvent todoItemEvent) {
         Intent intent = new Intent(this, TodoDetailActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putInt("id", todoItemNavigationEvent.getId());
-        bundle.putInt("type", todoItemNavigationEvent.getNavigationEventType().getEventTypeIntValue());
+        bundle.putInt("id", todoItemEvent.getId());
+        bundle.putInt("type", todoItemEvent.getTodoItemEventType().getEventTypeIntValue());
         intent.putExtra("navigationDetails", bundle);
         startActivity(intent);
     }

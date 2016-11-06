@@ -1,14 +1,13 @@
 package com.github.tothc.todolist.events;
 
-import java.util.Arrays;
-
-public enum NavigationEventType {
+public enum TodoItemEventType {
     DISPLAY(0),
     MODIFY(1),
-    CREATE(2);
+    CREATE(2),
+    DELETE(3);
 
     private final int value;
-    NavigationEventType(int value) {
+    TodoItemEventType(int value) {
         this.value = value;
     }
 
@@ -16,8 +15,8 @@ public enum NavigationEventType {
         return value;
     }
 
-    public static NavigationEventType getEventByIntValue(int intValue) {
-        for (NavigationEventType item : NavigationEventType.values()) {
+    public static TodoItemEventType getEventByIntValue(int intValue) {
+        for (TodoItemEventType item : TodoItemEventType.values()) {
             if (item.value == intValue) {
                 return item;
             }

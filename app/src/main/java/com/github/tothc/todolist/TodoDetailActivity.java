@@ -1,35 +1,20 @@
 package com.github.tothc.todolist;
 
-import android.app.usage.UsageEvents;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
-import android.view.Display;
-import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
-import com.github.tothc.todolist.events.NavigationEventType;
-import com.github.tothc.todolist.events.TodoItemNavigationEvent;
+import com.github.tothc.todolist.events.TodoItemEventType;
 import com.github.tothc.todolist.fragments.CreateTodoFragment;
 import com.github.tothc.todolist.fragments.DisplayTodoFragment;
 import com.github.tothc.todolist.fragments.ModifyTodoFragment;
-import com.github.tothc.todolist.model.TodoListItem;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
-
-import static android.R.attr.id;
 
 public class TodoDetailActivity extends AppCompatActivity {
 
@@ -49,7 +34,7 @@ public class TodoDetailActivity extends AppCompatActivity {
 
         Bundle navigationDetails = getIntent().getBundleExtra("navigationDetails");
         int todoId = navigationDetails.getInt("id");
-        NavigationEventType navigationEvent = NavigationEventType.getEventByIntValue(navigationDetails.getInt("type"));
+        TodoItemEventType navigationEvent = TodoItemEventType.getEventByIntValue(navigationDetails.getInt("type"));
         handleNavigationEvent(todoId, navigationEvent);
     }
 
@@ -63,8 +48,8 @@ public class TodoDetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void handleNavigationEvent(int id, NavigationEventType navigationEventType) {
-        switch (navigationEventType) {
+    private void handleNavigationEvent(int id, TodoItemEventType todoItemEventType) {
+        switch (todoItemEventType) {
             case DISPLAY:
                 navigateToDisplayTodo(id); break;
             case MODIFY:

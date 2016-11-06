@@ -59,4 +59,12 @@ public class TodoRepository {
             e.printStackTrace();
         }
     }
+
+    public void deleteTodoById(int id) {
+        try {
+            helper.getTodoListItemDao().deleteById(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
