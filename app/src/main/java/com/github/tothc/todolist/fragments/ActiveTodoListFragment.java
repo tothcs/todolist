@@ -13,8 +13,6 @@ import com.github.tothc.todolist.adapter.TodoListRecyclerViewAdapter;
 import com.github.tothc.todolist.dal.TodoRepository;
 import com.github.tothc.todolist.model.TodoListItem;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -44,8 +42,6 @@ public class ActiveTodoListFragment extends Fragment {
                              Bundle savedInstanceState) {
         this.view = inflater.inflate(R.layout.fragment_todo_list, container, false);
         ButterKnife.bind(this, view);
-
-        TodoRepository.initRepository(view.getContext());
 
         setupRecyclerView();
 

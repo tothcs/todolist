@@ -1,70 +1,26 @@
 package com.github.tothc.todolist.dal;
 
-import android.content.Context;
-
 import com.github.tothc.todolist.model.TodoListItem;
+import com.orm.query.Condition;
+import com.orm.query.Select;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class TodoRepository {
 
-    private static TodoRepository instance = null;
-    private DatabaseHelper helper;
+    private static final TodoRepository instance = new TodoRepository();
 
-    private TodoRepository(Context context) {
-        helper = new DatabaseHelper(context);
-    }
-
-    public static void initRepository(Context context) {
-        instance = new TodoRepository(context);
-    }
+    private TodoRepository() {}
 
     public static TodoRepository getInstance() {
-
         return instance;
     }
 
     public List<TodoListItem> getAllActiveTodo() {
-        try {
-            return helper.getTodoListItemDao().queryForEq("isCompleted", false);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return Select.from(TodoListItem.class).list();
     }
 
     public List<TodoListItem> getAllDoneTodo() {
-        try {
-            return helper.getTodoListItemDao().queryForEq("isCompleted", true);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public TodoListItem getTodoById(int id) {
-        try {
-            return helper.getTodoListItemDao().queryForId(id);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public void persistTodo(TodoListItem item) {
-        try {
-            helper.getTodoListItemDao().create(item);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void deleteTodoById(int id) {
-        try {
-            helper.getTodoListItemDao().deleteById(id);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        return Select.from(TodoListItem.class).where(Condition.prop("is_completed").eq(Boolean.TRUE)).list();
     }
 }

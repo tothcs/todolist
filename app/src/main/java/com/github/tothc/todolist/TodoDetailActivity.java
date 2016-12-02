@@ -33,7 +33,7 @@ public class TodoDetailActivity extends AppCompatActivity {
         }
 
         Bundle navigationDetails = getIntent().getBundleExtra("navigationDetails");
-        int todoId = navigationDetails.getInt("id");
+        Long todoId = navigationDetails.getLong("id");
         TodoItemEventType navigationEvent = TodoItemEventType.getEventByIntValue(navigationDetails.getInt("type"));
         handleNavigationEvent(todoId, navigationEvent);
     }
@@ -48,7 +48,7 @@ public class TodoDetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void handleNavigationEvent(int id, TodoItemEventType todoItemEventType) {
+    private void handleNavigationEvent(Long id, TodoItemEventType todoItemEventType) {
         switch (todoItemEventType) {
             case DISPLAY:
                 navigateToDisplayTodo(id); break;
@@ -61,11 +61,11 @@ public class TodoDetailActivity extends AppCompatActivity {
         }
     }
 
-    private void navigateToDisplayTodo(int id) {
+    private void navigateToDisplayTodo(Long id) {
         addFragment(DisplayTodoFragment.newInstance(id));
     }
 
-    private void navigateToModifyTodo(int id) {
+    private void navigateToModifyTodo(Long id) {
         addFragment(ModifyTodoFragment.newInstance(id));
     }
 

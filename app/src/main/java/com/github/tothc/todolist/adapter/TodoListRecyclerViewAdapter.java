@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.tothc.todolist.R;
-import com.github.tothc.todolist.dal.TodoRepository;
 import com.github.tothc.todolist.model.TodoListItem;
 
 import java.util.List;

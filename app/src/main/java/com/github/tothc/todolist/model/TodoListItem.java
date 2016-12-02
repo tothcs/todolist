@@ -1,40 +1,23 @@
 package com.github.tothc.todolist.model;
 
-import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.table.DatabaseTable;
+import com.orm.SugarRecord;
 
 import org.joda.time.DateTime;
 
-@DatabaseTable
-public class TodoListItem {
+import java.io.Serializable;
 
-    @DatabaseField(generatedId = true)
-    private int id;
-    @DatabaseField
+public class TodoListItem extends SugarRecord implements Serializable {
+
     private String name;
-    @DatabaseField
     private String description;
-    @DatabaseField(foreign = true, foreignAutoCreate = true, foreignAutoRefresh = true)
     private TodoPosition todoPosition;
-    //@DatabaseField
     //private DateTime startingDate;
-    @DatabaseField
     private int estimatedDuration;
-    @DatabaseField
     private int measuredDuration;
-    @DatabaseField
-    private boolean isCompleted;
+    private Boolean isCompleted;
 
     public TodoListItem() {
 
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -85,11 +68,11 @@ public class TodoListItem {
         this.measuredDuration = measuredDuration;
     }
 
-    public boolean isCompleted() {
+    public Boolean isCompleted() {
         return isCompleted;
     }
 
-    public void setCompleted(boolean completed) {
+    public void setCompleted(Boolean completed) {
         isCompleted = completed;
     }
 }

@@ -42,7 +42,6 @@ public class DoneTodoListFragment extends Fragment {
         this.view = inflater.inflate(R.layout.fragment_todo_list, container, false);
         ButterKnife.bind(this, view);
 
-        TodoRepository.initRepository(view.getContext());
         setupRecyclerView();
 
         return view;

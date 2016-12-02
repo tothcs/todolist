@@ -16,9 +16,9 @@ public class ModifyTodoFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static ModifyTodoFragment newInstance(int id) {
+    public static ModifyTodoFragment newInstance(Long id) {
         Bundle bundle = new Bundle();
-        bundle.putInt(TODO_ID, id);
+        bundle.putLong(TODO_ID, id);
         ModifyTodoFragment fragment = new ModifyTodoFragment();
         fragment.setArguments(bundle);
         return fragment;

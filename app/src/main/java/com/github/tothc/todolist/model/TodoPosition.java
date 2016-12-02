@@ -1,30 +1,17 @@
 package com.github.tothc.todolist.model;
 
-import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.table.DatabaseTable;
+import com.orm.SugarRecord;
 
-@DatabaseTable
-public class TodoPosition {
+import java.io.Serializable;
 
-    @DatabaseField(generatedId = true)
-    private long id;
-    @DatabaseField
+public class TodoPosition extends SugarRecord implements Serializable {
+
     private double latitude;
-    @DatabaseField
     private double longitude;
-    @DatabaseField
     private String address;
 
     public TodoPosition() {
 
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public double getLatitude() {

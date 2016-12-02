@@ -9,11 +9,11 @@ import com.github.tothc.todolist.fragments.DoneTodoListFragment;
 
 public class TodoListPagerAdapter extends FragmentStatePagerAdapter {
 
-    private final int numberOfPages;
+    private static final int NUMBER_OF_PAGES = 2;
+    private static final String[] PAGE_NAMES = {"Active", "Done"};
 
-    public TodoListPagerAdapter(FragmentManager manager, int numberOfPages) {
+    public TodoListPagerAdapter(FragmentManager manager) {
         super(manager);
-        this.numberOfPages = numberOfPages;
     }
 
     @Override
@@ -27,6 +27,11 @@ public class TodoListPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return numberOfPages;
+        return NUMBER_OF_PAGES;
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return PAGE_NAMES[position];
     }
 }

@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.github.tothc.todolist.R;
-import com.github.tothc.todolist.dal.TodoRepository;
 import com.github.tothc.todolist.model.TodoListItem;
 import com.github.tothc.todolist.model.TodoPosition;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -70,8 +69,9 @@ public class CreateTodoFragment extends Fragment {
         todoListItem.setDescription(descriptionEditText.getText().toString());
         todoListItem.setEstimatedDuration(Integer.valueOf(estimatedTimeNumber.getText().toString()));
         todoListItem.setCompleted(completedCheckbox.isChecked());
-        todoListItem.setTodoPosition(todoPosition);
-        TodoRepository.getInstance().persistTodo(todoListItem);
+        //todoPosition.save();
+        //todoListItem.setTodoPosition(todoPosition);
+        todoListItem.save();
     }
 
     @OnClick(R.id.create_todo_change_position)

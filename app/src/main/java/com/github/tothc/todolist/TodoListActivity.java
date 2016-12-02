@@ -22,8 +22,8 @@ import butterknife.OnClick;
 
 public class TodoListActivity extends AppCompatActivity {
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    /*@BindView(R.id.toolbar)
+    Toolbar toolbar;*/
 
     @BindView(R.id.viewPager)
     ViewPager viewPager;
@@ -31,15 +31,13 @@ public class TodoListActivity extends AppCompatActivity {
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
 
-    private static final int NUMBER_OF_PAGES = 2;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todo_list);
         ButterKnife.bind(this);
 
-        TodoListPagerAdapter todoListPagerAdapter = new TodoListPagerAdapter(getSupportFragmentManager(), NUMBER_OF_PAGES);
+        TodoListPagerAdapter todoListPagerAdapter = new TodoListPagerAdapter(getSupportFragmentManager());
         setupToolbar();
         setupTabLayout();
 
@@ -60,9 +58,9 @@ public class TodoListActivity extends AppCompatActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    protected void onTodoItemEvent(TodoItemEvent todoItemEvent) {
+    public void onTodoItemEvent(TodoItemEvent todoItemEvent) {
         if (todoItemEvent.getTodoItemEventType() == TodoItemEventType.DELETE) {
-            TodoRepository.getInstance().deleteTodoById(todoItemEvent.getId());
+            //TodoRepository.getInstance().deleteTodoById(todoItemEvent.getId());
         }  else {
             boolean twoPane = false;
             if (twoPane) {
@@ -73,25 +71,29 @@ public class TodoListActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.toolbar_create_new_todo_button)
-    void onCreateNewTodoButtonClick() {
+    @OnClick(R.id.toolbar_create_new_todo_fab)
+    public void onCreateNewTodoButtonClick() {
         navigateToDetailActivity(new TodoItemEvent(TodoItemEventType.CREATE));
     }
 
     private void navigateToDetailActivity(TodoItemEvent todoItemEvent) {
         Intent intent = new Intent(this, TodoDetailActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putInt("id", todoItemEvent.getId());
-        bundle.putInt("type", todoItemEvent.getTodoItemEventType().getEventTypeIntValue());
-        intent.putExtra("navigationDetails", bundle);
+        intent.putExtra("navigationDetails", createNavigationBundle(todoItemEvent));
         startActivity(intent);
     }
 
-
+    private Bundle createNavigationBundle(TodoItemEvent todoItemEvent) {
+        Bundle bundle = new Bundle();
+        if (todoItemEvent.getId() != null) {
+            bundle.putLong("id", todoItemEvent.getId());
+        }
+        bundle.putInt("type", todoItemEvent.getTodoItemEventType().getEventTypeIntValue());
+        return bundle;
+    }
 
     private void setupToolbar() {
-        toolbar.setTitle(getTitle());
-        setSupportActionBar(toolbar);
+        /*toolbar.setTitle(getTitle());
+        setSupportActionBar(toolbar);*/
     }
 
     private void setupTabLayout() {

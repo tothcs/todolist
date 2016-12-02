@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.tothc.todolist.R;
-import com.github.tothc.todolist.dal.TodoRepository;
 import com.github.tothc.todolist.model.TodoListItem;
 
 import butterknife.BindView;
@@ -25,9 +24,9 @@ public class DisplayTodoFragment extends Fragment {
 
     }
 
-    public static DisplayTodoFragment newInstance(int id) {
+    public static DisplayTodoFragment newInstance(Long id) {
         Bundle bundle = new Bundle();
-        bundle.putInt(TODO_ID, id);
+        bundle.putLong(TODO_ID, id);
         DisplayTodoFragment fragment = new DisplayTodoFragment();
         fragment.setArguments(bundle);
         return fragment;
@@ -43,7 +42,7 @@ public class DisplayTodoFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.todo_detail, container, false);
         ButterKnife.bind(this, rootView);
-        TodoListItem todoItem = TodoRepository.getInstance().getTodoById(getArguments().getInt(TODO_ID));
+        TodoListItem todoItem = TodoListItem.findById(TodoListItem.class, getArguments().getLong(TODO_ID));
         renderTodoItem(todoItem);
         return rootView;
     }
