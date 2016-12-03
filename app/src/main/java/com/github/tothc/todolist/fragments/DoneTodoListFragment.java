@@ -11,6 +11,13 @@ import android.view.ViewGroup;
 import com.github.tothc.todolist.R;
 import com.github.tothc.todolist.adapter.TodoListRecyclerViewAdapter;
 import com.github.tothc.todolist.dal.TodoRepository;
+import com.github.tothc.todolist.events.TodoItemEvent;
+import com.github.tothc.todolist.events.TodoItemEventType;
+import com.github.tothc.todolist.model.TodoListItem;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,7 +57,14 @@ public class DoneTodoListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        EventBus.getDefault().register(this);
         todoListRecyclerViewAdapter.refreshTodoList(TodoRepository.getInstance().getAllDoneTodo());
+    }
+
+    @Override
+    public void onPause() {
+        EventBus.getDefault().unregister(this);
+        super.onPause();
     }
 
     private void setupRecyclerView() {
@@ -60,5 +74,18 @@ public class DoneTodoListFragment extends Fragment {
 
     private boolean isTwoPane() {
         return detailContainer != null;
+    }
+
+    @Subscribe
+    public void onTodoItemEvent(TodoItemEvent todoItemEvent) {
+        TodoListItem todoListItem = todoItemEvent.getTodoListItem();
+        if (!todoListItem.isCompleted()) {
+            return;
+        }
+
+        if (todoItemEvent.getTodoItemEventType() == TodoItemEventType.DELETE) {
+            todoListItem.delete();
+            todoListRecyclerViewAdapter.refreshTodoList(TodoRepository.getInstance().getAllDoneTodo());
+        }
     }
 }

@@ -9,10 +9,15 @@ import android.support.v7.app.ActionBar;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
+import com.github.tothc.todolist.events.TodoItemEvent;
 import com.github.tothc.todolist.events.TodoItemEventType;
 import com.github.tothc.todolist.fragments.CreateTodoFragment;
 import com.github.tothc.todolist.fragments.DisplayTodoFragment;
 import com.github.tothc.todolist.fragments.ModifyTodoFragment;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 
@@ -35,7 +40,19 @@ public class TodoDetailActivity extends AppCompatActivity {
         Bundle navigationDetails = getIntent().getBundleExtra("navigationDetails");
         Long todoId = navigationDetails.getLong("id");
         TodoItemEventType navigationEvent = TodoItemEventType.getEventByIntValue(navigationDetails.getInt("type"));
-        handleNavigationEvent(todoId, navigationEvent);
+        handleDetailsNavigation(todoId, navigationEvent);
+    }
+
+    @Override
+    protected void onPause() {
+        EventBus.getDefault().unregister(this);
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -48,7 +65,21 @@ public class TodoDetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void handleNavigationEvent(Long id, TodoItemEventType todoItemEventType) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void handleNavigationEvent(TodoItemEventType todoItemEventType) {
+        switch (todoItemEventType) {
+            case LIST_TODOS:
+                navigateToListActivity(); break;
+            default:
+                throw new UnsupportedOperationException("Navigation event type not supported!");
+        }
+    }
+
+    private void navigateToListActivity() {
+        startActivity(new Intent(getApplicationContext(), TodoListActivity.class));
+    }
+
+    private void handleDetailsNavigation(Long id, TodoItemEventType todoItemEventType) {
         switch (todoItemEventType) {
             case DISPLAY:
                 navigateToDisplayTodo(id); break;
@@ -57,7 +88,7 @@ public class TodoDetailActivity extends AppCompatActivity {
             case CREATE:
                 navigateToCreateTodo(); break;
             default:
-                throw new UnsupportedOperationException("Navigation Event type not supported!");
+                throw new UnsupportedOperationException("Details navigation event type not supported!");
         }
     }
 

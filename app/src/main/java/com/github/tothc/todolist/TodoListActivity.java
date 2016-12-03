@@ -5,12 +5,12 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 
 import com.github.tothc.todolist.adapter.TodoListPagerAdapter;
 import com.github.tothc.todolist.dal.TodoRepository;
 import com.github.tothc.todolist.events.TodoItemEventType;
 import com.github.tothc.todolist.events.TodoItemEvent;
+import com.github.tothc.todolist.model.TodoListItem;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -21,9 +21,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class TodoListActivity extends AppCompatActivity {
-
-    /*@BindView(R.id.toolbar)
-    Toolbar toolbar;*/
 
     @BindView(R.id.viewPager)
     ViewPager viewPager;
@@ -38,7 +35,6 @@ public class TodoListActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         TodoListPagerAdapter todoListPagerAdapter = new TodoListPagerAdapter(getSupportFragmentManager());
-        setupToolbar();
         setupTabLayout();
 
         viewPager.setAdapter(todoListPagerAdapter);
@@ -60,7 +56,7 @@ public class TodoListActivity extends AppCompatActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onTodoItemEvent(TodoItemEvent todoItemEvent) {
         if (todoItemEvent.getTodoItemEventType() == TodoItemEventType.DELETE) {
-            //TodoRepository.getInstance().deleteTodoById(todoItemEvent.getId());
+
         }  else {
             boolean twoPane = false;
             if (twoPane) {
@@ -84,16 +80,11 @@ public class TodoListActivity extends AppCompatActivity {
 
     private Bundle createNavigationBundle(TodoItemEvent todoItemEvent) {
         Bundle bundle = new Bundle();
-        if (todoItemEvent.getId() != null) {
-            bundle.putLong("id", todoItemEvent.getId());
+        if (todoItemEvent.getTodoListItem() != null && todoItemEvent.getTodoListItem().getId() != null) {
+            bundle.putLong("id", todoItemEvent.getTodoListItem().getId());
         }
         bundle.putInt("type", todoItemEvent.getTodoItemEventType().getEventTypeIntValue());
         return bundle;
-    }
-
-    private void setupToolbar() {
-        /*toolbar.setTitle(getTitle());
-        setSupportActionBar(toolbar);*/
     }
 
     private void setupTabLayout() {

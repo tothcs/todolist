@@ -6,7 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.tothc.todolist.R;
+import com.github.tothc.todolist.dal.TodoRepository;
+import com.github.tothc.todolist.events.TodoItemEvent;
+import com.github.tothc.todolist.events.TodoItemEventType;
 import com.github.tothc.todolist.model.TodoListItem;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -42,4 +48,5 @@ public class TodoListRecyclerViewAdapter extends RecyclerView.Adapter<TodoListVi
         this.todoList = todoList;
         notifyDataSetChanged();
     }
+
 }

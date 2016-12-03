@@ -11,7 +11,7 @@ public class TodoListItem extends SugarRecord implements Serializable {
     private String name;
     private String description;
     private TodoPosition todoPosition;
-    //private DateTime startingDate;
+    private DateTime startingDate;
     private int estimatedDuration;
     private int measuredDuration;
     private Boolean isCompleted;
@@ -44,13 +44,13 @@ public class TodoListItem extends SugarRecord implements Serializable {
         this.todoPosition = todoPosition;
     }
 
-    /*public DateTime getStartingDate() {
+    public DateTime getStartingDate() {
         return startingDate;
     }
 
     public void setStartingDate(DateTime startingDate) {
         this.startingDate = startingDate;
-    }*/
+    }
 
     public int getEstimatedDuration() {
         return estimatedDuration;

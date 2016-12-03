@@ -4,7 +4,8 @@ public enum TodoItemEventType {
     DISPLAY(0),
     MODIFY(1),
     CREATE(2),
-    DELETE(3);
+    DELETE(3),
+    LIST_TODOS(4);
 
     private final int value;
     TodoItemEventType(int value) {

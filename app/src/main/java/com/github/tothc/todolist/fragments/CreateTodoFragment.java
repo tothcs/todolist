@@ -11,12 +11,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.github.tothc.todolist.R;
+import com.github.tothc.todolist.events.TodoItemEvent;
+import com.github.tothc.todolist.events.TodoItemEventType;
 import com.github.tothc.todolist.model.TodoListItem;
 import com.github.tothc.todolist.model.TodoPosition;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -69,13 +73,12 @@ public class CreateTodoFragment extends Fragment {
         todoListItem.setDescription(descriptionEditText.getText().toString());
         todoListItem.setEstimatedDuration(Integer.valueOf(estimatedTimeNumber.getText().toString()));
         todoListItem.setCompleted(completedCheckbox.isChecked());
-        //todoPosition.save();
-        //todoListItem.setTodoPosition(todoPosition);
         todoListItem.save();
+        EventBus.getDefault().post(TodoItemEventType.LIST_TODOS);
     }
 
     @OnClick(R.id.create_todo_change_position)
-    void onChangePositionButtonClick() {
+    public void onChangePositionButtonClick() {
         try {
             startActivityForResult(new PlacePicker.IntentBuilder().build(getActivity()), PLACE_PICKER_FLAG);
         } catch (GooglePlayServicesRepairableException e) {

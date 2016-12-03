@@ -69,7 +69,7 @@ public class TodoListViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void postTodoItemEvent(TodoItemEventType todoItemEventType) {
-        EventBus.getDefault().post(new TodoItemEvent(todoListItem.getId(), todoItemEventType));
+        EventBus.getDefault().post(new TodoItemEvent(todoListItem, todoItemEventType));
     }
 
 }
