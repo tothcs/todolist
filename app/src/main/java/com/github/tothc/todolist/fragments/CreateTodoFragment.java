@@ -19,7 +19,6 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
-
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
@@ -100,4 +99,5 @@ public class CreateTodoFragment extends Fragment {
             todoPosition.setAddress(place.getAddress().toString());
         }
     }
+
 }

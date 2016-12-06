@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.github.tothc.todolist.fragments.CreateTodoFragment"
+    tools:context="com.github.tothc.todolist.fragments.DisplayTodoFragment"
     android:orientation="vertical">
 
     <android.support.design.widget.TextInputLayout
@@ -13,8 +13,8 @@
         android:paddingTop="@dimen/input_vertical_padding"
         android:paddingBottom="@dimen/input_vertical_padding">
 
-        <com.devspark.robototextview.widget.RobotoEditText
-            android:id="@+id/name_edit_text"
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:id="@+id/display_todo_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
@@ -31,8 +31,8 @@
         android:paddingTop="@dimen/input_vertical_padding"
         android:paddingBottom="@dimen/input_vertical_padding">
 
-        <com.devspark.robototextview.widget.RobotoEditText
-            android:id="@+id/description_edit_text"
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:id="@+id/display_todo_description"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:inputType="textMultiLine"
@@ -50,16 +50,30 @@
         android:paddingBottom="@dimen/input_vertical_padding">
 
         <com.devspark.robototextview.widget.RobotoTextView
-            android:id="@+id/create_todo_position"
+            android:id="@+id/display_todo_position"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/create_todo_choose_place"/>
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/input_horizontal_padding"
+        android:paddingRight="@dimen/input_horizontal_padding"
+        android:paddingTop="@dimen/input_vertical_padding"
+        android:paddingBottom="@dimen/input_vertical_padding">
+
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:id="@+id/display_todo_weather"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <com.devspark.robototextview.widget.RobotoButton
-            android:id="@+id/create_todo_change_position"
+            android:id="@+id/display_todo_weather_button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/create_todo_change_position_button"/>
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -70,13 +84,13 @@
         android:paddingTop="@dimen/input_vertical_padding"
         android:paddingBottom="@dimen/input_vertical_padding">
 
-        <com.devspark.robototextview.widget.RobotoEditText
-            android:id="@+id/starting_time_date_picker"
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:id="@+id/display_todo_start_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/create_todo_start_time_label"
             android:inputType="datetime">
-        </com.devspark.robototextview.widget.RobotoEditText>
+        </com.devspark.robototextview.widget.RobotoTextView>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -87,13 +101,13 @@
         android:paddingTop="@dimen/input_vertical_padding"
         android:paddingBottom="@dimen/input_vertical_padding">
 
-        <com.devspark.robototextview.widget.RobotoEditText
-            android:id="@+id/estimated_time_number_picker"
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:id="@+id/display_todo_estimated_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/create_todo_estimated_time_label"
             android:inputType="number">
-        </com.devspark.robototextview.widget.RobotoEditText>
+        </com.devspark.robototextview.widget.RobotoTextView>
     </android.support.design.widget.TextInputLayout>
 
     <LinearLayout
@@ -106,7 +120,6 @@
         android:orientation="horizontal">
 
         <com.devspark.robototextview.widget.RobotoTextView
-            android:id="@+id/completed_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/create_todo_completed_checkbox_label"
@@ -114,19 +127,12 @@
         </com.devspark.robototextview.widget.RobotoTextView>
 
         <com.devspark.robototextview.widget.RobotoCheckBox
-            android:id="@+id/completed_checkbox"
+            android:id="@+id/display_todo_completed_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
         </com.devspark.robototextview.widget.RobotoCheckBox>
 
     </LinearLayout>
 
-    <com.devspark.robototextview.widget.RobotoButton
-        android:id="@+id/save_created_todo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/input_horizontal_padding"
-        android:paddingRight="@dimen/input_horizontal_padding"
-        android:text="@string/create_todo_save_button_text"/>
 
 </LinearLayout>
