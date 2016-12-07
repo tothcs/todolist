@@ -17,4 +17,12 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="create_todo_start_time">Choose start time</string>
+    <string name="display_todo_title_label">Title:</string>
+    <string name="display_todo_description_label">Description:</string>
+    <string name="display_todo_address_label">Address:</string>
+    <string name="display_todo_weather_button_label">Show weather</string>
+    <string name="display_todo_start_time_label">Start time:</string>
+    <string name="display_todo_estimated_time_label">Estimated time:</string>
+    <string name="display_todo_measured_time_label">Measured time:</string>
+    <string name="display_todo_status_label">Status:</string>
 </resources>

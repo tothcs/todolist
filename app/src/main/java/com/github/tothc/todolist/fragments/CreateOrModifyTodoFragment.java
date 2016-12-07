@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.github.tothc.todolist.AlarmReceiver;
 import com.github.tothc.todolist.R;
+import com.github.tothc.todolist.constants.Flags;
 import com.github.tothc.todolist.events.TodoItemEventType;
 import com.github.tothc.todolist.helper.DateTimeHelper;
 import com.github.tothc.todolist.model.TodoListItem;
@@ -29,8 +30,10 @@ import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 
+import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.joda.time.DateTime;
+import org.joda.time.Minutes;
 
 import java.util.List;
 
@@ -40,19 +43,13 @@ import butterknife.OnClick;
 
 import static android.app.Activity.RESULT_OK;
 
-public class CreateTodoFragment extends Fragment implements DateTimePickerDialogFragment.IDatePickerDialogFragment, Validator.ValidationListener {
-
-    private static final int PLACE_PICKER_FLAG = 1;
+public class CreateOrModifyTodoFragment extends Fragment implements DateTimePickerDialogFragment.IDatePickerDialogFragment, Validator.ValidationListener {
 
     @NotEmpty
     @BindView(R.id.name_edit_text)
     EditText nameEditText;
-
-    @NotEmpty
     @BindView(R.id.description_edit_text)
     EditText descriptionEditText;
-
-    @NotEmpty
     @BindView(R.id.estimated_time_number_picker)
     EditText estimatedTimeNumber;
     @BindView(R.id.completed_checkbox)
@@ -62,11 +59,13 @@ public class CreateTodoFragment extends Fragment implements DateTimePickerDialog
     @BindView(R.id.create_todo_start_time)
     TextView todoStartTime;
 
+    private TodoListItem todoItemToModify;
     private TodoPosition todoPosition;
     private DateTime todoItemStartingDate;
     private Validator validator;
+    private static final String TODO_ID = "ID";
 
-    public CreateTodoFragment() {
+    public CreateOrModifyTodoFragment() {
         // Required empty public constructor
     }
 
@@ -77,16 +76,39 @@ public class CreateTodoFragment extends Fragment implements DateTimePickerDialog
         validator.setValidationListener(this);
     }
 
-    public static CreateTodoFragment newInstance() {
-        return new CreateTodoFragment();
+    public static CreateOrModifyTodoFragment newCreateTodoFragmentInstance() {
+        return new CreateOrModifyTodoFragment();
+    }
+
+    public static CreateOrModifyTodoFragment newModifyTodoFragmentInstance(Long id) {
+        Bundle bundle = new Bundle();
+        bundle.putLong(TODO_ID, id);
+        CreateOrModifyTodoFragment fragment = new CreateOrModifyTodoFragment();
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_create_todo, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_create_or_modify_todo, container, false);
         ButterKnife.bind(this, rootView);
+        if (getArguments() != null && getArguments().get(TODO_ID) != null) {
+            todoItemToModify = TodoListItem.findById(TodoListItem.class, getArguments().getLong(TODO_ID));
+            renderTodoItemToModify();
+        }
+
         return rootView;
+    }
+
+    private void renderTodoItemToModify() {
+        nameEditText.setText(todoItemToModify.getName());
+        descriptionEditText.setText(todoItemToModify.getDescription());
+        estimatedTimeNumber.setText(String.valueOf(todoItemToModify.getEstimatedDuration()));
+        completedCheckbox.setChecked(todoItemToModify.isCompleted());
+        createTodoPosition.setText(todoItemToModify.getAddress());
+        todoItemStartingDate = new DateTime(todoItemToModify.getStartingDate());
+        todoStartTime.setText(todoItemStartingDate.toString(DateTimeHelper.getFormatter()));
     }
 
     @OnClick(R.id.save_created_todo)
@@ -109,7 +131,7 @@ public class CreateTodoFragment extends Fragment implements DateTimePickerDialog
     @OnClick(R.id.create_todo_change_position)
     public void onChangePositionButtonClick() {
         try {
-            startActivityForResult(new PlacePicker.IntentBuilder().build(getActivity()), PLACE_PICKER_FLAG);
+            startActivityForResult(new PlacePicker.IntentBuilder().build(getActivity()), Flags.PLACE_PICKER_FLAG);
         } catch (GooglePlayServicesRepairableException e) {
             e.printStackTrace();
         } catch (GooglePlayServicesNotAvailableException e) {
@@ -127,7 +149,7 @@ public class CreateTodoFragment extends Fragment implements DateTimePickerDialog
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == PLACE_PICKER_FLAG) {
+        if (resultCode == RESULT_OK && requestCode == Flags.PLACE_PICKER_FLAG) {
             Place place = PlacePicker.getPlace(this.getContext(), data);
             createTodoPosition.setText(place.getAddress());
             todoPosition = new TodoPosition();
@@ -145,19 +167,37 @@ public class CreateTodoFragment extends Fragment implements DateTimePickerDialog
 
     @Override
     public void onValidationSucceeded() {
-        TodoListItem todoListItem = new TodoListItem();
+        boolean isModify = (todoItemToModify != null && todoItemToModify.getId() != null);
+        TodoListItem todoListItem = isModify ? todoItemToModify : new TodoListItem();
         todoListItem.setName(nameEditText.getText().toString());
         todoListItem.setDescription(descriptionEditText.getText().toString());
-        todoListItem.setEstimatedDuration(Integer.valueOf(estimatedTimeNumber.getText().toString()));
+        if (StringUtils.isNumeric(estimatedTimeNumber.getText().toString())) {
+            todoListItem.setEstimatedDuration(Integer.valueOf(estimatedTimeNumber.getText().toString()));
+        }
         todoListItem.setStartingDate(todoItemStartingDate.toDate());
+        if (todoPosition != null) {
+            todoListItem.setLatitude(todoPosition.getLatitude());
+            todoListItem.setLongitude(todoPosition.getLongitude());
+            todoListItem.setAddress(todoPosition.getAddress());
+        }
+
+        if (isModify && !todoItemToModify.isCompleted() && completedCheckbox.isChecked()) {
+            todoListItem.setMeasuredDuration(Minutes.minutesBetween(todoItemStartingDate, DateTime.now()).getMinutes());
+        }
+
         todoListItem.setCompleted(completedCheckbox.isChecked());
 
         todoListItem.save();
 
-        if (!todoListItem.isCompleted()) {
-            AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
-            alarmManager.set(AlarmManager.RTC_WAKEUP, todoItemStartingDate.plusMonths(1).minusMinutes(5).getMillis(),
-                    PendingIntent.getBroadcast(getContext(), todoListItem.getId().intValue(), new Intent(getContext(), AlarmReceiver.class), PendingIntent.FLAG_UPDATE_CURRENT));
+        AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+        Intent alarmReceiverIntent = new Intent(getContext(), AlarmReceiver.class);
+        if (isModify) {
+            alarmManager.cancel(PendingIntent.getBroadcast(getContext(), todoListItem.getId().intValue(), alarmReceiverIntent, PendingIntent.FLAG_CANCEL_CURRENT));
+        }
+        if (!todoListItem.isCompleted() && todoItemStartingDate.isAfter(DateTime.now().plusMinutes(5))) {
+            alarmReceiverIntent.putExtra("TODO_ID", todoListItem.getId().intValue());
+            alarmManager.set(AlarmManager.RTC_WAKEUP, todoItemStartingDate.minusMinutes(5).getMillis(),
+                    PendingIntent.getBroadcast(getContext(), todoListItem.getId().intValue(), alarmReceiverIntent, PendingIntent.FLAG_CANCEL_CURRENT));
         }
 
         EventBus.getDefault().post(TodoItemEventType.LIST_TODOS);

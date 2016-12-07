@@ -94,7 +94,7 @@ public class ActiveTodoListFragment extends Fragment {
             AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
             alarmManager.cancel(PendingIntent.getBroadcast(getContext(), todoListItem.getId().intValue(), new Intent(getContext(), AlarmReceiver.class), PendingIntent.FLAG_CANCEL_CURRENT));
             todoListItem.delete();
-            todoListRecyclerViewAdapter.refreshTodoList(TodoRepository.getInstance().getAllDoneTodo());
+            todoListRecyclerViewAdapter.refreshTodoList(TodoRepository.getInstance().getAllActiveTodo());
         }
     }
 

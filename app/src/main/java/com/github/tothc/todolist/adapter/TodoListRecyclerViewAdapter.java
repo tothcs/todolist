@@ -36,7 +36,6 @@ public class TodoListRecyclerViewAdapter extends RecyclerView.Adapter<TodoListVi
     @Override
     public void onBindViewHolder(TodoListViewHolder holder, int position) {
         holder.setTodoListItem(todoList.get(position));
-
     }
 
     @Override

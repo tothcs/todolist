@@ -5,40 +5,27 @@
     tools:context="com.github.tothc.todolist.fragments.DisplayTodoFragment"
     android:orientation="vertical">
 
-    <android.support.design.widget.TextInputLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:paddingLeft="@dimen/input_horizontal_padding"
         android:paddingRight="@dimen/input_horizontal_padding"
         android:paddingTop="@dimen/input_vertical_padding"
         android:paddingBottom="@dimen/input_vertical_padding">
+
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="32sp"
+            android:text="@string/display_todo_title_label" />
 
         <com.devspark.robototextview.widget.RobotoTextView
             android:id="@+id/display_todo_title"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:textSize="32sp"
-            android:hint="@string/create_todo_enter_title" />
-
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/input_horizontal_padding"
-        android:paddingRight="@dimen/input_horizontal_padding"
-        android:paddingTop="@dimen/input_vertical_padding"
-        android:paddingBottom="@dimen/input_vertical_padding">
-
-        <com.devspark.robototextview.widget.RobotoTextView
-            android:id="@+id/display_todo_description"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:inputType="textMultiLine"
-            android:hint="@string/create_todo_description_hint" />
-
-    </android.support.design.widget.TextInputLayout>
+            android:textSize="32sp" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -50,88 +37,148 @@
         android:paddingBottom="@dimen/input_vertical_padding">
 
         <com.devspark.robototextview.widget.RobotoTextView
-            android:id="@+id/display_todo_position"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="@string/display_todo_description_label" />
 
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:id="@+id/display_todo_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:paddingLeft="@dimen/input_horizontal_padding"
         android:paddingRight="@dimen/input_horizontal_padding"
         android:paddingTop="@dimen/input_vertical_padding"
         android:paddingBottom="@dimen/input_vertical_padding">
+
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="@string/display_todo_address_label" />
+
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:id="@+id/display_todo_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/input_horizontal_padding"
+        android:paddingRight="@dimen/input_horizontal_padding"
+        android:paddingTop="@dimen/input_vertical_padding"
+        android:paddingBottom="@dimen/input_vertical_padding">
+
+        <com.devspark.robototextview.widget.RobotoButton
+            android:id="@+id/display_todo_weather_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/display_todo_weather_button_label"/>
 
         <com.devspark.robototextview.widget.RobotoTextView
             android:id="@+id/display_todo_weather"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-
-        <com.devspark.robototextview.widget.RobotoButton
-            android:id="@+id/display_todo_weather_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
     </LinearLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/input_horizontal_padding"
-        android:paddingRight="@dimen/input_horizontal_padding"
-        android:paddingTop="@dimen/input_vertical_padding"
-        android:paddingBottom="@dimen/input_vertical_padding">
-
-        <com.devspark.robototextview.widget.RobotoTextView
-            android:id="@+id/display_todo_start_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/create_todo_start_time_label"
-            android:inputType="datetime">
-        </com.devspark.robototextview.widget.RobotoTextView>
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/input_horizontal_padding"
-        android:paddingRight="@dimen/input_horizontal_padding"
-        android:paddingTop="@dimen/input_vertical_padding"
-        android:paddingBottom="@dimen/input_vertical_padding">
-
-        <com.devspark.robototextview.widget.RobotoTextView
-            android:id="@+id/display_todo_estimated_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/create_todo_estimated_time_label"
-            android:inputType="number">
-        </com.devspark.robototextview.widget.RobotoTextView>
-    </android.support.design.widget.TextInputLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:paddingLeft="@dimen/input_horizontal_padding"
         android:paddingRight="@dimen/input_horizontal_padding"
         android:paddingTop="@dimen/input_vertical_padding"
-        android:paddingBottom="@dimen/input_vertical_padding"
-        android:orientation="horizontal">
+        android:paddingBottom="@dimen/input_vertical_padding">
 
         <com.devspark.robototextview.widget.RobotoTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/create_todo_completed_checkbox_label"
-            android:textSize="24sp">
-        </com.devspark.robototextview.widget.RobotoTextView>
+            android:textSize="16sp"
+            android:text="@string/display_todo_start_time_label" />
 
-        <com.devspark.robototextview.widget.RobotoCheckBox
-            android:id="@+id/display_todo_completed_checkbox"
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:id="@+id/display_todo_start_time"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-        </com.devspark.robototextview.widget.RobotoCheckBox>
+            android:layout_height="wrap_content"
+            android:textSize="16sp" />
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/input_horizontal_padding"
+        android:paddingRight="@dimen/input_horizontal_padding"
+        android:paddingTop="@dimen/input_vertical_padding"
+        android:paddingBottom="@dimen/input_vertical_padding">
+
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="@string/display_todo_estimated_time_label" />
+
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:id="@+id/display_todo_estimated_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/display_todo_measured_time_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/input_horizontal_padding"
+        android:paddingRight="@dimen/input_horizontal_padding"
+        android:paddingTop="@dimen/input_vertical_padding"
+        android:paddingBottom="@dimen/input_vertical_padding">
+
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="@string/display_todo_measured_time_label" />
+
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:id="@+id/display_todo_measured_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/input_horizontal_padding"
+        android:paddingRight="@dimen/input_horizontal_padding"
+        android:paddingTop="@dimen/input_vertical_padding"
+        android:paddingBottom="@dimen/input_vertical_padding">
+
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="@string/display_todo_status_label" />
+
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:id="@+id/display_todo_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp" />
     </LinearLayout>
 
 

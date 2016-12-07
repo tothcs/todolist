@@ -9,11 +9,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
-import com.github.tothc.todolist.events.TodoItemEvent;
 import com.github.tothc.todolist.events.TodoItemEventType;
-import com.github.tothc.todolist.fragments.CreateTodoFragment;
+import com.github.tothc.todolist.fragments.CreateOrModifyTodoFragment;
 import com.github.tothc.todolist.fragments.DisplayTodoFragment;
-import com.github.tothc.todolist.fragments.ModifyTodoFragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -97,11 +95,11 @@ public class TodoDetailActivity extends AppCompatActivity {
     }
 
     private void navigateToModifyTodo(Long id) {
-        addFragment(ModifyTodoFragment.newInstance(id));
+        addFragment(CreateOrModifyTodoFragment.newModifyTodoFragmentInstance(id));
     }
 
     private void navigateToCreateTodo() {
-        addFragment(CreateTodoFragment.newInstance());
+        addFragment(CreateOrModifyTodoFragment.newCreateTodoFragmentInstance());
     }
 
     private void addFragment(Fragment fragment) {

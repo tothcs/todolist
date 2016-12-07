@@ -41,6 +41,7 @@ dependencies {
     compile 'com.github.johnkil.android-robototextview:robototextview:2.5.1'
     compile 'com.code-troopers.betterpickers:library:3.0.2'
     compile 'com.mobsandgeeks:android-saripaar:2.0.3'
+    compile 'org.apache.commons:commons-lang3:3.5'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
 }

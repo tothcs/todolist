@@ -15,6 +15,12 @@ public class DateTimeHelper {
                 .appendLiteral(" (").appendDayOfWeekShortText().appendLiteral(")").toFormatter();
     }
 
+    public static DateTimeFormatter getShortFormatter() {
+        return new DateTimeFormatterBuilder().appendMonthOfYearShortText()
+                .appendLiteral(" ").appendDayOfMonth(2).appendLiteral(". ")
+                .appendHourOfDay(2).appendLiteral(":").appendMinuteOfHour(2).toFormatter();
+    }
+
     public static DateTime createDateTime(Date date) {
         return new DateTime(date).plusMonths(1);
     }

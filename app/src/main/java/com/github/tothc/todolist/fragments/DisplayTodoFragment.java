@@ -30,14 +30,21 @@ public class DisplayTodoFragment extends Fragment {
     TextView todoTitle;
     @BindView(R.id.display_todo_description)
     TextView todoDescription;
-    @BindView(R.id.display_todo_position)
-    TextView todoPosition;
+    @BindView(R.id.display_todo_address)
+    TextView todoAddress;
     @BindView(R.id.display_todo_start_time)
     TextView todoStartTime;
     @BindView(R.id.display_todo_estimated_time)
     TextView todoEstimatedTime;
-    @BindView(R.id.display_todo_completed_checkbox)
-    TextView todoIsCompleted;
+    @BindView(R.id.display_todo_measured_time)
+    TextView todoMeasuredTime;
+    @BindView(R.id.display_todo_status)
+    TextView todoStatus;
+    @BindView(R.id.display_todo_weather)
+    TextView todoWeather;
+
+    @BindView(R.id.display_todo_measured_time_container)
+    View todoMeasuredTimeContainer;
 
     private WeatherInteractor weatherInteractor;
     private TodoListItem todoItem;
@@ -81,24 +88,29 @@ public class DisplayTodoFragment extends Fragment {
         EventBus.getDefault().register(this);
     }
 
-    void renderTodoItem(TodoListItem todoListItem) {
+    private void renderTodoItem(TodoListItem todoListItem) {
         todoTitle.setText(todoListItem.getName());
         todoDescription.setText(todoListItem.getDescription());
-        //todoPosition.setText(todoListItem.getTodoPosition());
-        //todoStartTime.setText(todoListItem.getStartingDate().toString());
-        //todoEstimatedTime.setText(todoListItem.getEstimatedDuration());
-        todoIsCompleted.setText(todoListItem.isCompleted() ? "Done" : "Active");
+        todoAddress.setText(todoListItem.getAddress());
+        todoStartTime.setText(new DateTime(todoListItem.getStartingDate()).toString(DateTimeHelper.getFormatter()));
+        todoEstimatedTime.setText(String.valueOf(todoListItem.getEstimatedDuration()));
+        if (todoListItem.isCompleted()) {
+            todoMeasuredTime.setText(String.valueOf(todoListItem.getMeasuredDuration()));
+            todoStatus.setText("Active");
+        } else {
+            todoMeasuredTimeContainer.setVisibility(View.GONE);
+            todoStatus.setText("Done");
+        }
     }
 
     @OnClick(R.id.display_todo_weather_button)
     public void onDisplayWeatherButtonClick() {
-        weatherInteractor.getWeatherData(47.49801, 19.03991, DateTimeHelper.createDateTime(todoItem.getStartingDate()));
+        weatherInteractor.getWeatherData(todoItem.getLatitude(), todoItem.getLongitude(), DateTimeHelper.createDateTime(todoItem.getStartingDate()));
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void displayWeatherResponse(List time) {
-        // TODO
-        System.out.println("A");
+        todoWeather.setText(time.getTemp().getDay());
     }
 
 }

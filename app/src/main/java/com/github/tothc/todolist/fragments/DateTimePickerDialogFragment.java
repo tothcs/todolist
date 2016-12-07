@@ -91,7 +91,7 @@ public class DateTimePickerDialogFragment extends DialogFragment implements Cale
 
     @Override
     public void onDateSet(CalendarDatePickerDialogFragment dialog, int year, int monthOfYear, int dayOfMonth) {
-        selectedDateTime = selectedDateTime.withDayOfMonth(dayOfMonth).withMonthOfYear(monthOfYear).withYear(year);
+        selectedDateTime = selectedDateTime.withDayOfMonth(dayOfMonth).withMonthOfYear(monthOfYear + 1).withYear(year);
 
         RadialTimePickerDialogFragment radialTimePickerDialogFragment = new RadialTimePickerDialogFragment()
                 .setOnTimeSetListener(this)

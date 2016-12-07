@@ -9,9 +9,12 @@ import android.widget.TextView;
 import com.github.tothc.todolist.R;
 import com.github.tothc.todolist.events.TodoItemEventType;
 import com.github.tothc.todolist.events.TodoItemEvent;
+import com.github.tothc.todolist.helper.DateTimeHelper;
 import com.github.tothc.todolist.model.TodoListItem;
 
 import org.greenrobot.eventbus.EventBus;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormatter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,10 +23,10 @@ import butterknife.OnLongClick;
 
 public class TodoListViewHolder extends RecyclerView.ViewHolder {
 
-    @BindView(R.id.listItemTitle)
-    TextView titleTextView;
-    @BindView(R.id.listItemStartDate)
-    TextView startDateTextView;
+    @BindView(R.id.todo_list_item_title)
+    TextView todoTitle;
+    @BindView(R.id.todo_list_item_start_date)
+    TextView todoStartDate;
 
     private TodoListItem todoListItem;
     private View view;
@@ -36,8 +39,8 @@ public class TodoListViewHolder extends RecyclerView.ViewHolder {
 
     public void setTodoListItem(TodoListItem todoListItem) {
         this.todoListItem = todoListItem;
-        titleTextView.setText(todoListItem.getName());
-        startDateTextView.setText("asd");
+        todoTitle.setText(todoListItem.getName());
+        todoStartDate.setText(new DateTime(todoListItem.getStartingDate()).toString(DateTimeHelper.getShortFormatter()));
     }
 
     @OnClick
