@@ -26,7 +26,7 @@ public class WeatherInteractor {
     }
 
     public void getWeatherData(double latitude, double longitude, DateTime eventDateTime) {
-        final int forecastCount = Days.daysBetween(DateTime.now(), eventDateTime).getDays();
+        final int forecastCount = (Days.daysBetween(DateTime.now(), eventDateTime.minusMonths(1)).getDays() == 0) ? 1 : Days.daysBetween(DateTime.now(), eventDateTime.minusMonths(1)).getDays();
 
         if (forecastCount > 16) {
             // Error

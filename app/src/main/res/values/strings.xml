@@ -8,7 +8,7 @@
     <string name="create_todo_save_button_text">Save</string>
     <string name="create_todo_completed_checkbox_label">Done</string>
     <string name="create_todo_estimated_time_label">Estimated time</string>
-    <string name="create_todo_start_time_label">Start time</string>
+    <string name="create_todo_start_time_label">Change start time</string>
     <string name="create_todo_change_position_button">Change position</string>
     <string name="create_todo_description_hint">Description</string>
     <string name="create_todo_enter_title">Title</string>
@@ -16,4 +16,5 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="create_todo_start_time">Choose start time</string>
 </resources>

@@ -1,6 +1,10 @@
 package com.github.tothc.todolist.fragments;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.usage.UsageEvents;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.tothc.todolist.AlarmReceiver;
 import com.github.tothc.todolist.R;
 import com.github.tothc.todolist.adapter.TodoListRecyclerViewAdapter;
 import com.github.tothc.todolist.dal.TodoRepository;
@@ -86,6 +91,8 @@ public class ActiveTodoListFragment extends Fragment {
         }
 
         if (todoItemEvent.getTodoItemEventType() == TodoItemEventType.DELETE) {
+            AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+            alarmManager.cancel(PendingIntent.getBroadcast(getContext(), todoListItem.getId().intValue(), new Intent(getContext(), AlarmReceiver.class), PendingIntent.FLAG_CANCEL_CURRENT));
             todoListItem.delete();
             todoListRecyclerViewAdapter.refreshTodoList(TodoRepository.getInstance().getAllDoneTodo());
         }

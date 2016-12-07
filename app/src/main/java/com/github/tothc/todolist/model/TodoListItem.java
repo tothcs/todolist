@@ -5,13 +5,14 @@ import com.orm.SugarRecord;
 import org.joda.time.DateTime;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class TodoListItem extends SugarRecord implements Serializable {
 
     private String name;
     private String description;
     private TodoPosition todoPosition;
-    private DateTime startingDate;
+    private Date startingDate;
     private int estimatedDuration;
     private int measuredDuration;
     private Boolean isCompleted;
@@ -44,11 +45,11 @@ public class TodoListItem extends SugarRecord implements Serializable {
         this.todoPosition = todoPosition;
     }
 
-    public DateTime getStartingDate() {
+    public Date getStartingDate() {
         return startingDate;
     }
 
-    public void setStartingDate(DateTime startingDate) {
+    public void setStartingDate(Date startingDate) {
         this.startingDate = startingDate;
     }
 

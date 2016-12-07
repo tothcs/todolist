@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.github.tothc.todolist.R;
 import com.github.tothc.todolist.dal.WeatherInteractor;
 import com.github.tothc.todolist.dal.weather.List;
+import com.github.tothc.todolist.helper.DateTimeHelper;
 import com.github.tothc.todolist.model.TodoListItem;
 
 import org.greenrobot.eventbus.EventBus;
@@ -91,8 +92,7 @@ public class DisplayTodoFragment extends Fragment {
 
     @OnClick(R.id.display_todo_weather_button)
     public void onDisplayWeatherButtonClick() {
-        //weatherInteractor.getWeatherData(todoItem.getTodoPosition().getLatitude(), todoItem.getTodoPosition().getLongitude(), todoItem.getStartingDate());
-        weatherInteractor.getWeatherData(47.49801, 19.03991, DateTime.now().plusDays(2));
+        weatherInteractor.getWeatherData(47.49801, 19.03991, DateTimeHelper.createDateTime(todoItem.getStartingDate()));
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
