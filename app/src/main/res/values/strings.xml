@@ -25,4 +25,8 @@
     <string name="display_todo_estimated_time_label">Estimated time:</string>
     <string name="display_todo_measured_time_label">Measured time:</string>
     <string name="display_todo_status_label">Status:</string>
+    <string name="display_todo_floating_window_checkbox">Display floating window</string>
+    <string name="display_todo_floating_window_checkbox_label">Show floating window:</string>
+    <string name="done_text">Done</string>
+    <string name="active_text">Active</string>
 </resources>

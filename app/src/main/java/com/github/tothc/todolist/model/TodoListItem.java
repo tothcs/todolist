@@ -18,6 +18,7 @@ public class TodoListItem extends SugarRecord implements Serializable {
     private double latitude;
     private double longitude;
     private String address;
+    private Boolean floatingViewVisible;
 
     public TodoListItem() {
 
@@ -93,5 +94,13 @@ public class TodoListItem extends SugarRecord implements Serializable {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public Boolean isFloatingViewVisible() {
+        return floatingViewVisible;
+    }
+
+    public void setFloatingViewVisible(Boolean floatingViewVisible) {
+        this.floatingViewVisible = floatingViewVisible;
     }
 }

@@ -26,10 +26,10 @@ public class WeatherInteractor {
     }
 
     public void getWeatherData(double latitude, double longitude, DateTime eventDateTime) {
-        final int forecastCount = (Days.daysBetween(DateTime.now(), eventDateTime.minusMonths(1)).getDays() == 0) ? 1 : Days.daysBetween(DateTime.now(), eventDateTime.minusMonths(1)).getDays();
+        final int forecastCount = Days.daysBetween(DateTime.now(), eventDateTime.minusMonths(1)).getDays() + 1;
 
         if (forecastCount > 16) {
-            // Error
+            // The forecast is available within 16 days.
         } else {
             Call<WeatherData> weatherResponse = weatherAPI.getDailyForecast(latitude, longitude, forecastCount, "e08d34962a7fb8c719a3e61ada3959c8");
             weatherResponse.enqueue(new Callback<WeatherData>() {

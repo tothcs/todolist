@@ -17,15 +17,11 @@ public class TodoRepository {
     }
 
     public List<TodoListItem> getAllActiveTodo() {
-        return Select.from(TodoListItem.class).where(Condition.prop("is_completed").eq(0)).list();
-        //return Select.from(TodoListItem.class).where(.list();
+        return Select.from(TodoListItem.class).where(Condition.prop("is_completed").eq(0)).orderBy("starting_date").list();
     }
 
     public List<TodoListItem> getAllDoneTodo() {
-        return Select.from(TodoListItem.class).where(Condition.prop("is_completed").eq(1)).list();
+        return Select.from(TodoListItem.class).where(Condition.prop("is_completed").eq(1)).orderBy("starting_date").list();
     }
 
-    public boolean deleteTodoById(Long id) {
-        return TodoListItem.findById(TodoListItem.class, id).delete();
-    }
 }

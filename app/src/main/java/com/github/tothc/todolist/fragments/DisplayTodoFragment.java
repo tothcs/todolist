@@ -1,13 +1,22 @@
 package com.github.tothc.todolist.fragments;
 
+import android.content.Intent;
+import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.CheckBox;
+import android.widget.CheckedTextView;
 import android.widget.TextView;
 
+import com.devspark.robototextview.widget.RobotoCheckedTextView;
 import com.github.tothc.todolist.R;
+import com.github.tothc.todolist.TodoService;
 import com.github.tothc.todolist.dal.WeatherInteractor;
 import com.github.tothc.todolist.dal.weather.List;
 import com.github.tothc.todolist.helper.DateTimeHelper;
@@ -20,7 +29,11 @@ import org.joda.time.DateTime;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
+
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+import static android.content.Context.WINDOW_SERVICE;
 
 public class DisplayTodoFragment extends Fragment {
 
@@ -42,6 +55,8 @@ public class DisplayTodoFragment extends Fragment {
     TextView todoStatus;
     @BindView(R.id.display_todo_weather)
     TextView todoWeather;
+    @BindView(R.id.display_todo_show_floating_window)
+    CheckBox todoShowFloatingWindow;
 
     @BindView(R.id.display_todo_measured_time_container)
     View todoMeasuredTimeContainer;
@@ -76,6 +91,20 @@ public class DisplayTodoFragment extends Fragment {
         return rootView;
     }
 
+    @OnClick(R.id.display_todo_show_floating_window)
+    public void onShowTodoFloatingWindowChange() {
+        Intent intent = new Intent(getContext(), TodoService.class);
+        intent.putExtra("TODO_ID", todoItem.getId().intValue());
+        if (todoShowFloatingWindow.isChecked()) {
+            todoItem.setFloatingViewVisible(true);
+            getContext().startService(intent);
+        } else {
+            todoItem.setFloatingViewVisible(false);
+            getContext().stopService(intent);
+        }
+        todoItem.save();
+    }
+
     @Override
     public void onPause() {
         EventBus.getDefault().unregister(this);
@@ -96,11 +125,12 @@ public class DisplayTodoFragment extends Fragment {
         todoEstimatedTime.setText(String.valueOf(todoListItem.getEstimatedDuration()));
         if (todoListItem.isCompleted()) {
             todoMeasuredTime.setText(String.valueOf(todoListItem.getMeasuredDuration()));
-            todoStatus.setText("Active");
+            todoStatus.setText(R.string.done_text);
         } else {
             todoMeasuredTimeContainer.setVisibility(View.GONE);
-            todoStatus.setText("Done");
+            todoStatus.setText(R.string.active_text);
         }
+        todoShowFloatingWindow.setChecked(todoListItem.isFloatingViewVisible() != null ? todoListItem.isFloatingViewVisible() : false);
     }
 
     @OnClick(R.id.display_todo_weather_button)
@@ -110,7 +140,7 @@ public class DisplayTodoFragment extends Fragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void displayWeatherResponse(List time) {
-        todoWeather.setText(time.getTemp().getDay());
+        todoWeather.setText(time.getWeather()[0].getDescription() + ", " + time.getTemp().getDay() + " \u2103");
     }
 
 }
